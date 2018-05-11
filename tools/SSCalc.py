@@ -45,6 +45,11 @@ def get_args():
 			default=None,
 			help="Output filename. Default is the input file with the extension .ss appended in the current directory.")
 
+		parser.add_argument(
+			'-e',
+			'--exact',
+			action='store_true',
+			help='Return exact numbers for percent, rather than rounded to the nearest integer.')
 		return  parser.parse_args()
 
 	except:
@@ -70,6 +75,10 @@ def main():
 			helix_perc = helix_fract * 100
 			sheet_perc = sheet_fract * 100
 			other_perc = other_fract * 100
+			if not args.exact:
+				helix_perc = int(round(helix_perc))
+				sheet_perc = int(round(sheet_perc))
+				other_perc = int(round(other_perc))
 			print(args.infile + "\t" +
 				 str(len(mol.residues)) + "\t" +
 				 str(helix_perc) + "\t" +
